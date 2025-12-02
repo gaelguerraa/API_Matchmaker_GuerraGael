@@ -13,8 +13,10 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import java.util.GregorianCalendar;
+import java.util.logging.Logger;
 
 /**
  * REST Web Service
@@ -25,6 +27,8 @@ import java.util.GregorianCalendar;
 @RequestScoped
 public class PerfilesResource {
 
+    private static final Logger logger = Logger.getLogger(PerfilesResource.class.getName());
+    
     @Context
     private UriInfo context;
 
@@ -40,7 +44,8 @@ public class PerfilesResource {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public ProfileDTO getJson() {
+    public ProfileDTO getJson(@QueryParam("edad") int edad) {
+        logger.info("edad" + edad);
            return new ProfileDTO("Alexander", "Gaskarth", "William", new GregorianCalendar(1987, 12, 14),
             "https://res.cloudinary.com/dyrin57yj/image/upload/v1764622666/alex_izes31.jpg",
             "alex.gw@mail.com", "Male", "GB",
@@ -54,5 +59,6 @@ public class PerfilesResource {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public void putJson(ProfileDTO content) {
+        logger.info(content.toString());
     }
 }

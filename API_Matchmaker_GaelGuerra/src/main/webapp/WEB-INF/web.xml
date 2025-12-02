@@ -8,7 +8,7 @@
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
         <init-param>
             <param-name>jakarta.ws.rs.Application</param-name>
-            <param-value>apps.web.api_matchmaker_gaelguerra.JakartaRestConfiguration</param-value>
+            <param-value>com.mycompany.api_matchmaker_gaelguerra.JakartaRestConfiguration</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
