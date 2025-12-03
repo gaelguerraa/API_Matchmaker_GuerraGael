@@ -2,22 +2,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package daos;
+package dtos;
 
+import daos.ManejadorConexiones;
 import dominio.Perfil;
+import jakarta.enterprise.context.Dependent;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-
 
 /**
  *
  * @author gael_
  */
-
-
-public class PerfilesDAO {
-    
+@Dependent
+public class ProfileDAO {
     public void agregarPerfil(Perfil perfil){
         EntityManager entityManager = ManejadorConexiones.getEntityManager();
         
@@ -43,28 +41,4 @@ public class PerfilesDAO {
             entityManager.close();
         }
     }
-
-    public List<Perfil> obtenerPerfiles(int edad, String pais, String genero) {
-        EntityManager entityManager = ManejadorConexiones.getEntityManager();
-        
-        try {
-            String jpql = "SELECT p FROM Perfil p WHERE p.edad = :edad AND p.pais = :pais AND p.genero = :genero";
-
-            TypedQuery<Perfil> query = entityManager.createQuery(jpql, Perfil.class);
-
-            query.setParameter("edad", edad);
-            query.setParameter("pais", pais);
-            query.setParameter("genero", genero);
-
-            return query.getResultList();
-            
-        } finally {
-
-            entityManager.close();
-        }
-    }
-    
 }
-    
-    
-

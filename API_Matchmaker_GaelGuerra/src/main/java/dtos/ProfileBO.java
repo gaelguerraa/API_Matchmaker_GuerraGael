@@ -4,7 +4,6 @@
  */
 package dtos;
 
-import daos.PerfilesDAO;
 import dominio.Perfil;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -21,7 +20,7 @@ import java.util.Random;
 public class ProfileBO {
     
     @Inject
-    private PerfilesDAO perfilDAO; 
+    private ProfileDAO perfilDAO; 
     private final Random random = new Random();
     
     public  ProfileDTO encontrarMatch(String genero, String pais, int edad) {
@@ -57,7 +56,7 @@ public class ProfileBO {
             int currentScore = 0;
             if (perfil.getGenero() != null && perfil.getGenero().equalsIgnoreCase(genero)) currentScore++;
             if (perfil.getPais() != null && perfil.getPais().equalsIgnoreCase(pais)) currentScore++;
-            if (perfil.getEdad() != 0 && Math.abs(perfil.getEdad() - edad) <= 5) currentScore++;
+            if (perfil.getEdad() == edad) currentScore++;
 
             if (currentScore == maxScore) {
                 bestMatches.add(perfil);

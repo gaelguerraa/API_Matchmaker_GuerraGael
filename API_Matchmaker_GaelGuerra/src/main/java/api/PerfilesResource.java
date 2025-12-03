@@ -4,9 +4,9 @@
  */
 package api;
 
-import daos.PerfilesDAO;
 import dominio.Perfil;
 import dtos.ProfileBO;
+import dtos.ProfileDAO;
 import dtos.ProfileDTO;
 import dtos.ProfileMapper;
 import jakarta.ws.rs.core.Context;
@@ -14,16 +14,12 @@ import jakarta.ws.rs.core.UriInfo;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,9 +38,10 @@ public class PerfilesResource {
     private UriInfo context;
     
     @Inject
-    private PerfilesDAO perfilDAO;
+    private ProfileDAO perfilDAO;
 
-    ProfileBO profileBO;
+    @Inject
+    private ProfileBO profileBO;
 
 
     /**
@@ -57,12 +54,12 @@ public class PerfilesResource {
      * Retrieves representation of an instance of api.PerfilesResource
      * @return an instance of dtos.ProfileDTO
      */
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public ProfileDTO getJson(@QueryParam("edad") int edad) {
-        logger.info("edad" + edad);
-           return new ProfileDTO("Alexander", "Gaskarth", "United States");
-    }
+//    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public ProfileDTO getJson(@QueryParam("edad") int edad) {
+//        logger.info("edad" + edad);
+//           return new ProfileDTO("Alexander", "Gaskarth", "United States");
+//    }
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
