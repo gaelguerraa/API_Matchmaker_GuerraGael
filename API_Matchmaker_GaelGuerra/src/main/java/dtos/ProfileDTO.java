@@ -6,6 +6,7 @@ package dtos;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
@@ -16,7 +17,7 @@ public class ProfileDTO implements Serializable {
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
-    private GregorianCalendar fechaNacimiento;
+    private Calendar fechaNacimiento;
     private String foto;
     private String email;
     private String genero;
@@ -29,7 +30,15 @@ public class ProfileDTO implements Serializable {
     public ProfileDTO() {
     }
 
-    public ProfileDTO(String nombre, String apellidoPaterno, String apellidoMaterno, GregorianCalendar fechaNacimiento, String foto, String email, String genero, String pais, String telefono, String celular, String direccion, int edad) {
+    public ProfileDTO(String nombre, String apellidoPaterno, String pais) {
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.pais = pais;
+    }
+    
+    
+
+    public ProfileDTO(String nombre, String apellidoPaterno, String apellidoMaterno, Calendar fechaNacimiento, String foto, String email, String genero, String pais, String telefono, String celular, String direccion, int edad) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -68,11 +77,11 @@ public class ProfileDTO implements Serializable {
         this.apellidoMaterno = apellidoMaterno;
     }
 
-    public GregorianCalendar getFechaNacimiento() {
+    public Calendar getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(GregorianCalendar fechaNacimiento) {
+    public void setFechaNacimiento(Calendar fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 

@@ -4,7 +4,11 @@
  */
 package api;
 
+import daos.PerfilesDAO;
+import dominio.Perfil;
+import dtos.ProfileBO;
 import dtos.ProfileDTO;
+import dtos.ProfileMapper;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.UriInfo;
 import jakarta.ws.rs.Consumes;
@@ -13,9 +17,14 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -31,6 +40,12 @@ public class PerfilesResource {
     
     @Context
     private UriInfo context;
+    
+    @Inject
+    private PerfilesDAO perfilDAO;
+
+    ProfileBO profileBO;
+
 
     /**
      * Creates a new instance of PerfilesResource
@@ -46,19 +61,50 @@ public class PerfilesResource {
     @Produces(MediaType.APPLICATION_JSON)
     public ProfileDTO getJson(@QueryParam("edad") int edad) {
         logger.info("edad" + edad);
-           return new ProfileDTO("Alexander", "Gaskarth", "William", new GregorianCalendar(1987, 12, 14),
-            "https://res.cloudinary.com/dyrin57yj/image/upload/v1764622666/alex_izes31.jpg",
-            "alex.gw@mail.com", "Male", "GB",
-            "(513)472-0970", "(513)472-0980", "3153 Westheimer Rd", 37);
+           return new ProfileDTO("Alexander", "Gaskarth", "United States");
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public ProfileDTO getProfile(@QueryParam("genero") String genero, 
+        @QueryParam("pais") String pais, 
+        @QueryParam("edad") int edad) {
+
+        logger.log(Level.INFO, "Buscando match - Genero: {0}, Pais: {1}, Edad: {2}", new Object[]{genero, pais, edad});
+        
+        try {
+             ProfileDTO match = profileBO.encontrarMatch(genero, pais, edad);
+            
+            if (match != null) {
+                return match;
+            } else {
+
+                return null;
+            }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error al buscar perfiles.", e);
+            return null;
+        }
+    
     }
 
-    /**
-     * PUT method for updating or creating an instance of PerfilesResource
-     * @param content representation for the resource
-     */
-    @PUT
+
+    
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void putJson(ProfileDTO content) {
-        logger.info(content.toString());
+    public void postProfile(ProfileDTO dto){
+        logger.log(Level.INFO, "Recibida petición POST para agregar perfil: {0}", dto.getNombre());
+        
+        try {
+            Perfil nuevoPerfil = ProfileMapper.mapToEntity(dto);
+            perfilDAO.agregarPerfil(nuevoPerfil);
+            
+            logger.log(Level.INFO, "Petición exitosa POST para agregar perfil: {0}", dto.getNombre());
+            
+        } catch (RuntimeException e) {
+            logger.log(Level.SEVERE, "Error al procesar y guardar el perfil.", e);
+
+        }
+    
     }
 }
