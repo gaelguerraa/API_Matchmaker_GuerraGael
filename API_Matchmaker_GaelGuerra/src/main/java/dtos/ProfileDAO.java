@@ -6,7 +6,6 @@ package dtos;
 
 import daos.ManejadorConexiones;
 import dominio.Perfil;
-import jakarta.enterprise.context.Dependent;
 import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -14,7 +13,7 @@ import javax.persistence.EntityManager;
  *
  * @author gael_
  */
-@Dependent
+
 public class ProfileDAO {
     public void agregarPerfil(Perfil perfil){
         EntityManager entityManager = ManejadorConexiones.getEntityManager();

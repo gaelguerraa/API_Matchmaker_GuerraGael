@@ -5,8 +5,6 @@
 package dtos;
 
 import dominio.Perfil;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -16,12 +14,14 @@ import java.util.Random;
  * @author gael_
  */
 
-@RequestScoped
 public class ProfileBO {
     
-    @Inject
     private ProfileDAO perfilDAO; 
     private final Random random = new Random();
+    
+    public ProfileBO(ProfileDAO perfilDAO) {
+        this.perfilDAO = perfilDAO;
+    }
     
     public  ProfileDTO encontrarMatch(String genero, String pais, int edad) {
 

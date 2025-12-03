@@ -34,13 +34,8 @@ public class PerfilesResource {
 
     private static final Logger logger = Logger.getLogger(PerfilesResource.class.getName());
     
-    @Context
-    private UriInfo context;
-    
-    @Inject
-    private ProfileDAO perfilDAO;
 
-    @Inject
+    private ProfileDAO perfilDAO;
     private ProfileBO profileBO;
 
 
@@ -48,6 +43,8 @@ public class PerfilesResource {
      * Creates a new instance of PerfilesResource
      */
     public PerfilesResource() {
+        this.perfilDAO = new ProfileDAO();
+        this.profileBO = new ProfileBO(this.perfilDAO);
     }
 
     /**
